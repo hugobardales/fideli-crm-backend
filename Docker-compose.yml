@@ -1,8 +1,8 @@
-version: '3.8'
+name: fideli-crm-backend
 
 services:
-  # Database Service per "Enterprise" requirements
-  # We use a specific version (16) to ensure reproducibility.
+  # Database Service: PostgreSQL 16
+  # Almacena los datos de clientes y transacciones del CRM
   postgres:
     image: postgres:16
     container_name: fidelicrm-db
@@ -22,14 +22,14 @@ services:
       timeout: 5s
       retries: 5
 
-  # Messaging Service for Event Driven Architecture
-  # Using the management image to visualize queues on localhost:15672
+  # Messaging Service: RabbitMQ with Management Console
+  # Maneja la comunicación asíncrona y eventos del sistema
   rabbitmq:
     image: rabbitmq:3.12-management
     container_name: fidelicrm-queue
     ports:
-      - "5672:5672"   # AMQP protocol port
-      - "15672:15672" # Management UI port
+      - "5672:5672"   # Puerto AMQP
+      - "15672:15672" # Interfaz web de administración
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -41,14 +41,13 @@ services:
       timeout: 5s
       retries: 5
 
-  # Cloud Simulation Service
-  # Simulates AWS S3 locally so we don't need real credentials/costs during development of S3StorageService
+  # Cloud Simulation: LocalStack
+  # Simula servicios de AWS (como S3 para almacenamiento de documentos)
   localstack:
     image: localstack/localstack:3.0
     container_name: fidelicrm-aws
     ports:
-      - "4566:4566"            # LocalStack Gateway
-      - "4510-4559:4510-4559"  # External services port range
+      - "4566:4566"  # Gateway único para todos los servicios de AWS
     environment:
       - SERVICES=s3
       - DEBUG=1
