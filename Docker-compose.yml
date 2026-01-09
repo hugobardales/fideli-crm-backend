@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Database Service per "Enterprise" requirements
+  # We use a specific version (16) to ensure reproducibility.
+  postgres:
+    image: postgres:16
+    container_name: fidelicrm-db
+    environment:
+      POSTGRES_DB: fidelicrm
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fidelicrm-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d fidelicrm"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Messaging Service for Event Driven Architecture
+  # Using the management image to visualize queues on localhost:15672
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: fidelicrm-queue
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - fidelicrm-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cloud Simulation Service
+  # Simulates AWS S3 locally so we don't need real credentials/costs during development of S3StorageService
+  localstack:
+    image: localstack/localstack:3.0
+    container_name: fidelicrm-aws
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+      - "4510-4559:4510-4559"  # External services port range
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - fidelicrm-network
+
+networks:
+  fidelicrm-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
