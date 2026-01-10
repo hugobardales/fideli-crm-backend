@@ -1,28 +1,16 @@
 spring:
   application:
     name: fidelicrmbackend
-  docker:
-    compose:
-      enabled: true
-      file: docker-compose.yml
-      lifecycle-management: start-only
+
+  # Configuración de Base de Datos
   datasource:
-    url: jdbc:postgresql://localhost:5432/fidelicrm
-    username: admin
-    password: password
+    url: jdbc:postgresql://localhost:5435/fidelicrm_dev
+    username: dev_admin
+    password: dev_password
     driver-class-name: org.postgresql.Driver
+
+  # Configuración de JPA / Hibernate
   jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -30,14 +18,24 @@ jpa:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-rabbitmq:
-      host: localhost
-      port: 5672
-      username: guest
-      password: guest
+
+  # Configuración de RabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5675
+    username: user_v1
+    password: pass_v1
+
+  # Desactivamos el soporte automático de Docker Compose de Spring Boot
+  # para evitar conflictos, ya que tú lo manejas manualmente.
+  docker:
+    compose:
+      enabled: false
+
+# Configuración de AWS LocalStack
 aws:
   s3:
-    endpoint: http://localhost:4566
+    endpoint: http://localhost:4569
     region: us-east-1
     access-key: test
     secret-key: test
