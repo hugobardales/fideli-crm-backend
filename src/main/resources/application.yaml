@@ -13,12 +13,15 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 jpa:
     hibernate:
       ddl-auto: update
@@ -39,3 +42,9 @@ aws:
     access-key: test
     secret-key: test
     bucket-name: fidelicrm-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
