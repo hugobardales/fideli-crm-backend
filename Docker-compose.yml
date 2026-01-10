@@ -1,53 +1,56 @@
-name: fideli-crm-backend
+name: fidelicrm-enviroment
 
 services:
-  # Database Service: PostgreSQL 16
-  # Almacena los datos de clientes y transacciones del CRM
-  postgres:
+  # Database Service per "Enterprise" requirements
+  # We use a specific version (16) to ensure reproducibility.
+  # Base de Datos - Puerto 5435
+  postgres-alt:
     image: postgres:16
-    container_name: fidelicrm-db
+    container_name: fidelicrm-db-v1
     environment:
-      POSTGRES_DB: fidelicrm
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fidelicrm_dev
+      POSTGRES_USER: dev_admin
+      POSTGRES_PASSWORD: dev_password
     ports:
-      - "5432:5432"
+      - "5435:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_v1:/var/lib/postgresql/data
     networks:
-      - fidelicrm-network
+      - fidelicrm-network-v1
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d fidelicrm"]
+      test: ["CMD-SHELL", "pg_isready -U dev_admin -d fidelicrm_dev"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  # Messaging Service: RabbitMQ with Management Console
-  # Maneja la comunicación asíncrona y eventos del sistema
-  rabbitmq:
+  # Messaging Service for Event Driven Architecture
+  # Using the management image to visualize queues on localhost:15675
+  # RabbitMQ - Puertos 5675 y 15675
+  rabbitmq-alt:
     image: rabbitmq:3.12-management
-    container_name: fidelicrm-queue
+    container_name: fidelicrm-mq-v2
     ports:
-      - "5672:5672"   # Puerto AMQP
-      - "15672:15672" # Interfaz web de administración
+      - "5675:5672"   # Puerto de la App
+      - "15675:15672" # Puerto del Dashboard Web
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: user_v1
+      RABBITMQ_DEFAULT_PASS: pass_v1
     networks:
-      - fidelicrm-network
+      - fidelicrm-network-v1
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # Cloud Simulation: LocalStack
-  # Simula servicios de AWS (como S3 para almacenamiento de documentos)
-  localstack:
+  # Cloud Simulation Service
+  # Simulates AWS S3 locally so we don't need real credentials/costs during development of S3StorageService
+  # LocalStack - Puerto 4569
+  localstack-alt:
     image: localstack/localstack:3.0
-    container_name: fidelicrm-aws
+    container_name: fidelicrm-aws-v1
     ports:
-      - "4566:4566"  # Gateway único para todos los servicios de AWS
+      - "4569:4566"
     environment:
       - SERVICES=s3
       - DEBUG=1
@@ -55,11 +58,11 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - fidelicrm-network
+      - fidelicrm-network-v1
 
 networks:
-  fidelicrm-network:
+  fidelicrm-network-v1:
     driver: bridge
 
 volumes:
-  postgres_data:
+  postgres_data_v1:
