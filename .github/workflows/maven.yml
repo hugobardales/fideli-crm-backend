@@ -10,6 +10,15 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    jobs:
+      build-and-test:
+        runs-on: ubuntu-latest
+
+        permissions:
+          contents: read
+          checks: write # Permite al robot crear el reporte de tests
+          pull-requests: write # Opcional: permite comentar en los PRs
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4 # Actualizado a v4
