@@ -9,22 +9,17 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
-    jobs:
-      build-and-test:
-        runs-on: ubuntu-latest
-
-        permissions:
-          contents: read
-          checks: write # Permite al robot crear el reporte de tests
-          pull-requests: write # Opcional: permite comentar en los PRs
+    # Seccion de permisos necesaria para los reportes
+    permissions:
+      contents: read
+      checks: write
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Actualizado a v4
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4 # Actualizado a v4
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -32,23 +27,16 @@ jobs:
 
       - name: Start Infrastructure (Docker Compose)
         run: |
-          # Levantamos tus contenedores v1
           docker compose up -d
-          
-          echo "Waiting for services to be healthy..."
-          # Damos tiempo a Postgres (5435) y RabbitMQ (5675) para inicializarse
-          sleep 20 
-          
-          # Mostramos el estado para debug si algo falla
+          echo "Waiting for services..."
+          sleep 20
           docker compose ps
 
       - name: Build and Test with Maven
-        # Usamos verify para asegurar que se ejecuten los tests de integración
-        # Agregamos -Dspring.profiles.active=test si quieres usar un perfil específico
         run: mvn -B clean verify
 
       - name: Publish Test Report
-        if: always() # Se ejecuta aunque los tests fallen
+        if: always()
         uses: mikepenz/action-junit-report@v4
         with:
           report_paths: '**/target/surefire-reports/TEST-*.xml'
