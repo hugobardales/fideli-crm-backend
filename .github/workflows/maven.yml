@@ -1,0 +1,49 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Definimos los servicios que necesitan tus tests para pasar
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: fidelicrm_dev
+          POSTGRES_USER: dev_admin
+          POSTGRES_PASSWORD: dev_password
+        ports:
+          - 5435:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      rabbitmq:
+        image: rabbitmq:3.12-management
+        env:
+          RABBITMQ_DEFAULT_USER: user_v1
+          RABBITMQ_DEFAULT_PASS: pass_v1
+        ports:
+          - 5675:5672
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and Test with Maven
+        # Este comando ejecutará tus tests de infraestructura y de contexto
+        run: mvn -B clean verify
