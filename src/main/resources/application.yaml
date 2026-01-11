@@ -9,6 +9,12 @@ spring:
     password: dev_password
     driver-class-name: org.postgresql.Driver
 
+  # Configuration flyway
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    connect-retries: 10
+
   # Configuración de JPA / Hibernate
   jpa:
     hibernate:
