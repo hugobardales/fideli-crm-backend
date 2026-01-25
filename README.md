@@ -1,228 +1,180 @@
-# 🎭 Sentiment Analysis Backend API
+# 🚀 Sentiment Analysis Backend API
 
 <div align="center">
 
-![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.0-green?style=for-the-badge&logo=spring-boot)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql)
-![Redis](https://img.shields.io/badge/Redis-red?style=for-the-badge&logo=redis)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0-brightgreen.svg?style=for-the-badge&logo=spring-boot)
+![Java](https://img.shields.io/badge/Java-21-orange.svg?style=for-the-badge&logo=openjdk)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg?style=for-the-badge&logo=mysql)
+![Redis](https://img.shields.io/badge/Redis-7.2-red.svg?style=for-the-badge&logo=redis)
+![Docker](https://img.shields.io/badge/Docker-Container-blue.svg?style=for-the-badge&logo=docker)
 
-**API REST de análisis de sentimientos con Machine Learning**
+**API REST de Análisis de Sentimiento Multilingüe con Traducción Automática en Tiempo Real**
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)]()
+*Proyecto desarrollado para el Hackathon Oracle ONE*
+
+[📖 Documentación](#-documentación) • [🚀 Guía Rápida](#-guía-rápida) • [🔧 Configuración](#-configuración) • [📊 Endpoints](#-endpoints) • [🐳 Docker](#-docker)
 
 </div>
 
 ---
 
-## 📋 Tabla de Contenidos
+## 📋 Tabla de Contenido
 
-- [🎯 Overview](#-overview)
-- [✨ Características](#-características)
+- [🎯 Sobre el Proyecto](#-sobre-el-proyecto)
+- [✨ Características Principales](#-características-principales)
 - [🏗️ Arquitectura](#️-arquitectura)
-- [🚀 Quick Start](#-quick-start)
-- [📚 Documentación de la API](#-documentación-de-la-api)
+- [🚀 Guía Rápida](#-guía-rápida)
 - [🔧 Configuración](#-configuración)
-- [🐳 Docker](#-docker)
+- [📊 API Endpoints](#-api-endpoints)
+- [🔐 Autenticación](#-autenticación)
+- [🐳 Docker & Docker Compose](#-docker--docker-compose)
 - [🧪 Testing](#-testing)
-- [📊 Endpoints](#-endpoints)
-- [🔐 Seguridad](#-seguridad)
-- [🌐 Internacionalización](#-internacionalización)
-- [📈 Performance](#-performance)
-- [🤝 Contribuir](#-contribuir)
+- [📈 Monitoramiento](#-monitoramiento)
+- [🤝 Contribución](#-contribución)
 
 ---
 
-## 🎯 Overview
+## 🎯 Sobre el Proyecto
 
-El **Sentiment Analysis Backend** es una API REST robusta desarrollada con Spring Boot 4.0 y Java 21 que proporciona servicios de análisis de sentimientos mediante Machine Learning. Esta API es el componente central del proyecto Hackathon Oracle ONE, diseñada para procesar texto y determinar el sentimiento emocional (positivo/negativo) con alta precisión.
+Este backend es una **API REST robusta y escalable** diseñada para analizar el sentimiento de textos en múltiples idiomas utilizando técnicas de Machine Learning y traducción automática en tiempo real.
 
-### 🎭 ¿Qué hace?
-
-- **Análisis de sentimientos** en tiempo real usando modelos de Machine Learning
-- **Traducción automática** con LibreTranslate para soporte multiidioma
-- **Sistema de caché** con Redis para optimizar rendimiento
-- **Autenticación JWT** para gestión segura de usuarios
-- **Internacionalización** completa (ES, EN, PT)
-- **Estadísticas avanzadas** y analytics de datos
+### 🌍 Característica Única: Traducción Inteligente
+- **Análisis multilingüe**: Textos en cualquier idioma son automáticamente traducidos al español antes del análisis
+- **Cache inteligente**: Las traducciones frecuentes se almacenan en Redis para optimizar el rendimiento
+- **Procesamiento paralelo**: Múltiples traducciones simultáneas mediante `WebClient` y `CompletableFuture`
 
 ---
 
-## ✨ Características
+## ✨ Características Principales
 
-### 🧠 **Machine Learning Integration**
-- Conexión con microservicio Python para análisis de sentimientos
-- Procesamiento de texto en tiempo real
-- Predicciones con probabilidades de confianza
+### 🧠 Análisis de Sentimiento
+- **Machine Learning Integration**: Conexión con microservicio Python para predicciones
+- **Procesamiento Individual y en Lote**: Soporte para CSV con múltiples textos
+- **Estadísticas en Tiempo Real**: Métricas agregadas de todos los análisis
 
-### 🌍 **Soporte Multiidioma**
-- Traducción automática con LibreTranslate
-- Internacionalización completa (ES, EN, PT)
-- Detección automática de idioma
+### 🌐 Internacionalización
+- **Traducción Automática**: Integración con LibreTranslate (100+ idiomas)
+- **Cache de Traducciones**: Redis para traducciones frecuentes (TTL: 1 hora)
+- **API REST i18n**: Endpoints para gestionar traducciones dinámicas
 
-### 🔐 **Seguridad Avanzada**
-- Autenticación JWT (JSON Web Tokens)
-- Roles de usuario (USER, ADMIN)
-- Encriptación de contraseñas con BCrypt
-- CORS configurado para frontend
+### 🔐 Seguridad
+- **JWT Authentication**: Tokens seguros con expiración configurable
+- **Roles de Usuario**: Sistema de autorización basado en roles
+- **Spring Security**: Protección comprehensive contra ataques comunes
 
-### ⚡ **Alto Rendimiento**
-- Sistema de caché con Redis
-- Pool de conexiones con HikariCP
-- Procesamiento concurrente con WebFlux
-- Optimización de consultas JPA
+### 📊 Gestión de Datos
+- **MySQL 8.0**: Base de datos persistente con Flyway migrations
+- **Redis Cache**: Sistema de caché distribuido para alto rendimiento
+- **JPA/Hibernate**: ORM optimizado con configuración avanzada
 
-### 📊 **Analytics & Estadísticas**
-- Estadísticas globales de sentimientos
-- Historial de análisis por usuario
-- Métricas agregadas en tiempo real
+### 🚀 Performance
+- **Caching Multinivel**: Redis + Spring Cache
+- **Procesamiento Asíncrono**: Traducciones concurrentes
+- **Connection Pooling**: HikariCP para gestión eficiente de conexiones
 
 ---
 
 ## 🏗️ Arquitectura
 
-```mermaid
-graph TB
-    subgraph "Frontend"
-        A[React App]
-    end
-    
-    subgraph "Backend API"
-        B[Spring Boot App]
-        C[Controllers]
-        D[Services]
-        E[Repositories]
-    end
-    
-    subgraph "External Services"
-        F[LibreTranslate]
-        G[ML Service Python]
-    end
-    
-    subgraph "Data Layer"
-        H[MySQL 8.0]
-        I[Redis Cache]
-    end
-    
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    D --> F
-    D --> G
-    E --> H
-    D --> I
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend API   │    │  Data Science   │
+│   (React)       │◄──►│   (Spring Boot) │◄──►│    (Python)     │
+│   :3000         │    │   :8080         │    │   :8000         │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                               │
+                    ┌──────────┼──────────┐
+                    │          │          │
+            ┌───────▼───┐ ┌────▼────┐ ┌───▼─────┐
+            │   MySQL   │ │  Redis  │ │LibreT.  │
+            │   :3306   │ │ :6379   │ │ :5000   │
+            └───────────┘ └─────────┘ └─────────┘
 ```
 
 ### 📁 Estructura del Proyecto
 
 ```
-sentiment-backend/
-├── 📁 src/main/java/com/hackaton/sentiment/
-│   ├── 🎯 SentimentBackendApplication.java
-│   ├── 📁 controller/          # Endpoints REST
-│   ├── 📁 service/             # Lógica de negocio
-│   ├── 📁 repository/          # Acceso a datos
-│   ├── 📁 entity/              # Modelos JPA
-│   ├── 📁 dto/                 # Data Transfer Objects
-│   ├── 📁 config/              # Configuración Spring
-│   ├── 📁 security/            # JWT y seguridad
-│   └── 📁 util/                # Utilidades
-├── 📁 src/main/resources/
-│   ├── 📄 application.yml       # Configuración principal
-│   ├── 📁 i18n/               # Traducciones
-│   ├── 📁 db/migration/       # Flyway migrations
-│   └── 📁 init-scripts/       # Scripts SQL iniciales
-├── 📁 src/test/               # Tests unitarios e integración
-├── 🐳 docker-compose.yml      # Orquestación de servicios
-├── 🐳 Dockerfile              # Imagen Docker
-└── 📄 pom.xml                 # Dependencias Maven
+src/main/java/com/hackaton/sentiment/
+├── 📂 controller/          # Endpoints REST
+│   ├── SentimentController.java
+│   ├── AuthController.java
+│   ├── I18nController.java
+│   └── ...
+├── 📂 service/             # Lógica de negocio
+│   ├── SentimentService.java
+│   ├── TranslationService.java
+│   └── impl/
+├── 📂 repository/          # Acceso a datos
+├── 📂 entity/             # Modelos JPA
+├── 📂 dto/                # Data Transfer Objects
+├── 📂 security/           # Configuración de seguridad
+├── 📂 config/             # Configuración Spring
+└── 📂 util/               # Utilidades
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Guía Rápida
 
 ### 📋 Prerrequisitos
 
-- **Java 21+** - [Download JDK](https://adoptium.net/)
-- **Maven 3.8+** - [Install Maven](https://maven.apache.org/install.html)
-- **MySQL 8.0+** - [Download MySQL](https://dev.mysql.com/downloads/mysql/)
-- **Redis 6.0+** - [Install Redis](https://redis.io/download)
-- **Docker & Docker Compose** (opcional) - [Get Docker](https://www.docker.com/)
+- **Java 21** o superior
+- **Maven 3.9+**
+- **MySQL 8.0+**
+- **Redis 7.2+**
+- **Docker & Docker Compose** (opcional pero recomendado)
 
-### ⚡ Instalación Rápida
+### ⚡ Inicio Rápido con Docker
 
-1. **Clonar el repositorio**
 ```bash
+# 1. Clonar el repositorio
 git clone <repository-url>
-cd sentiment-backend
-```
+cd backend/sentiment-backend
 
-2. **Configurar variables de entorno**
-```bash
+# 2. Configurar variables de entorno
 cp .env.example .env
 # Editar .env con tus credenciales
-```
 
-3. **Iniciar con Docker (Recomendado)**
-```bash
+# 3. Iniciar todos los servicios
 docker-compose up -d
+
+# 4. Verificar estado
+docker-compose ps
 ```
 
-4. **O iniciar localmente**
-```bash
-# Crear base de datos
-mysql -u root -p -e "CREATE DATABASE sentimentdb;"
+### 🛠️ Ejecución Local
 
-# Ejecutar aplicación
+```bash
+# 1. Iniciar servicios dependientes
+docker-compose up -d mysql redis libretranslate
+
+# 2. Configurar base de datos
+mysql -u root -p < init-scripts/01-init.sql
+
+# 3. Ejecutar la aplicación
 ./mvnw spring-boot:run
-```
 
-5. **Verificar instalación**
-```bash
-curl http://localhost:8080/actuator/health
-```
-
-🎉 **¡Listo!** La API está disponible en `http://localhost:8080`
-
----
-
-## 📚 Documentación de la API
-
-### 🌐 Swagger UI
-
-Accede a la documentación interactiva de la API:
-```
-http://localhost:8080/swagger-ui.html
-```
-
-### 📖 OpenAPI Specification
-```
-http://localhost:8080/v3/api-docs
+# 4. Acceder a la API
+curl http://localhost:8080/health
 ```
 
 ---
 
 ## 🔧 Configuración
 
-### 📄 Perfiles Disponibles
+### 🌍 Perfiles Disponibles
 
-| Perfil | Descripción | Base de Datos | Uso |
-|--------|-------------|---------------|-----|
-| `local` | Desarrollo local | MySQL (localhost:3306) | Desarrollo |
-| `docker` | Producción Docker | MySQL (contenedor) | Producción |
-| `test` | Testing automatizado | H2 (memoria) | Tests |
+| Perfil | Descripción | Uso |
+|--------|-------------|-----|
+| `local` | Desarrollo local con MySQL local | 💻 Desarrollo |
+| `docker` | Producción con Docker Compose | 🐳 Producción |
+| `test` | Testing con H2 en memoria | 🧪 Testing |
 
-### 🔑 Variables de Entorno
+### 📝 Variables de Entorno
 
 ```bash
 # Base de Datos
-SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/sentimentdb
-SPRING_DATASOURCE_USERNAME=root
-SPRING_DATASOURCE_PASSWORD=tu_password
+DB_ADMIN0_1_PASSWORD=tu_password_secreto
 
 # JWT
 JWT_SECRET=8jLc0f8Tz/b3CEIIu5u5o7W6KbFc3cWWnmlQMULdSqA=
@@ -231,260 +183,256 @@ JWT_EXPIRATION=86400000
 # Servicios Externos
 LIBRETRANSLATE_URL=http://localhost:5000
 ML_SERVICE_URL=http://localhost:8000
+```
 
-# Redis
-SPRING_DATA_REDIS_HOST=localhost
-SPRING_DATA_REDIS_PORT=6379
+### 🔌 Configuración de Aplicación
+
+El archivo `application.yml` contiene toda la configuración:
+
+```yaml
+# Ejemplo de configuración clave
+spring:
+  profiles:
+    active: local  # Cambiar a 'docker' para producción
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/sentimentdb
+    username: root
+    password: ${DB_ADMIN0_1_PASSWORD}
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+libretranslate:
+  url: http://localhost:5000
+  enabled: true
+  cache-enabled: true
 ```
 
 ---
 
-## 🐳 Docker
+## 📊 API Endpoints
 
-### 🎯 Docker Compose Completo
+### 🔐 Autenticación
 
-El proyecto incluye un entorno Docker completo con todos los servicios:
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `POST` | `/auth/register` | Registro de nuevos usuarios |
+| `POST` | `/auth/login` | Inicio de sesión y obtención de JWT |
 
-```yaml
-services:
-  🐬 mysql:      # Base de datos
-  🔴 redis:      # Caché
-  🌐 libretranslate: # Traducción automática
-  ☕ backend:    # API Spring Boot
+### 🧠 Análisis de Sentimiento
+
+| Método | Endpoint | Descripción | Autenticación |
+|--------|----------|-------------|---------------|
+| `POST` | `/sentiment` | Analizar sentimiento de un texto | ✅ Requerida |
+| `POST` | `/sentiment/batch` | Análisis en lote (CSV) | ✅ Requerida |
+| `GET` | `/sentiment/stats` | Estadísticas globales | ❌ Pública |
+| `GET` | `/sentiment/my-analyses` | Historial personal | ✅ Requerida |
+
+### 🌐 Internacionalización
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/i18n/languages` | Lista idiomas disponibles |
+| `GET` | `/i18n/translations/{lang}` | Traducciones por idioma |
+| `POST` | `/i18n/translate` | Traducir texto específico |
+
+### 💡 Ejemplos de Uso
+
+#### Analizar Sentimiento
+```bash
+curl -X POST http://localhost:8080/sentiment \
+  -H "Authorization: Bearer <JWT_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Este producto es increíble, me encanta mucho",
+    "language": "es"
+  }'
 ```
 
-### 🚀 Ejecutar con Docker
+#### Respuesta Esperada
+```json
+{
+  "id": 123,
+  "text": "Este producto es increíble, me encanta mucho",
+  "sentiment": "Positivo",
+  "probability": 0.92,
+  "language": "es",
+  "createdAt": "2026-01-25T10:30:00Z"
+}
+```
+
+#### Análisis en Lote (CSV)
+```bash
+curl -X POST http://localhost:8080/sentiment/batch \
+  -H "Authorization: Bearer <JWT_TOKEN>" \
+  -F "file=@comentarios.csv"
+```
+
+---
+
+## 🔐 Autenticación
+
+### 🎫 JWT Token Flow
+
+1. **Login**: Usuario envía credenciales a `/auth/login`
+2. **Token**: Sistema retorna JWT válido por 24h
+3. **Access**: Incluir token en header `Authorization: Bearer <token>`
+
+### 🛡️ Seguridad Implementada
+
+- **Password Encoding**: BCrypt con salt aleatorio
+- **CORS Configurable**: Orígenes permitidos configurables
+- **Rate Limiting**: Protección contra ataques de fuerza bruta
+- **Input Validation**: Validación comprehensive con Bean Validation
+
+---
+
+## 🐳 Docker & Docker Compose
+
+### 🏗️ Arquitectura Docker
+
+La aplicación está diseñada con **multi-stage builds** para optimización:
+
+```dockerfile
+# Stage 1: Build (Maven + Java 21)
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
+# ... compilación y testing ...
+
+# Stage 2: Runtime (JRE ligero)
+FROM eclipse-temurin:21-jre-alpine
+# ... ejecución optimizada ...
+```
+
+### 📦 Servicios del Ecosistema
+
+| Servicio | Imagen | Puerto | Función |
+|----------|--------|--------|---------|
+| **backend** | Custom Build | 8080 | API Spring Boot |
+| **mysql** | mysql:8.0 | 3307 | Base de datos |
+| **redis** | redis:alpine | 6379 | Cache distribuido |
+| **libretranslate** | libretranslate/libretranslate | 5000 | Traducción IA |
+
+### 🚀 Comandos Docker
 
 ```bash
 # Iniciar todos los servicios
 docker-compose up -d
 
-# Ver logs
+# Ver logs en tiempo real
 docker-compose logs -f backend
 
-# Detener servicios
-docker-compose down
-```
+# Escalar backend (balanceo de carga)
+docker-compose up -d --scale backend=3
 
-### 📊 Estado de los Servicios
-
-```bash
-# Ver todos los contenedores
-docker ps
-
-# Ver salud de los servicios
-docker-compose ps
+# Detener y limpiar
+docker-compose down -v
 ```
 
 ---
 
 ## 🧪 Testing
 
-### 🎯 Tipos de Tests
+### 📊 Cobertura de Pruebas
 
-- **Unit Tests**: Tests de servicios y componentes individuales
-- **Integration Tests**: Tests de integración con base de datos
-- **API Tests**: Tests de endpoints REST
-- **Testcontainers**: Tests con contenedores Docker reales
-
-### 🚀 Ejecutar Tests
+El proyecto incluye **testing comprehensivo** con JaCoCo:
 
 ```bash
-# Todos los tests
+# Ejecutar todos los tests
 ./mvnw test
 
-# Tests específicos
-./mvnw test -Dtest=SentimentControllerTest
-
-# Tests con cobertura
+# Generar reporte de cobertura
 ./mvnw jacoco:report
+
+# Verificar cobertura (mínimo 80%)
+./mvnw verify
 ```
 
-### 📊 Reportes de Tests
+### 🧪 Tipos de Tests
 
-Los reportes se generan en:
-- **Surefire**: `target/surefire-reports/`
-- **JaCoCo**: `target/site/jacoco/`
+- **Unit Tests**: Servicios y utilidades con JUnit 5 + Mockito
+- **Integration Tests**: Repositorios con Testcontainers
+- **API Tests**: Endpoints REST con MockMvc
+- **Security Tests**: Autenticación y autorización
+
+### 📈 Reportes Generados
+
+- **JaCoCo**: Cobertura de código en `target/site/jacoco`
+- **Surefire**: Resultados de tests en `target/surefire-reports`
+- **Javadoc**: Documentación API en `target/site/apidocs`
 
 ---
 
-## 📊 Endpoints
+## 📈 Monitoramiento
 
-### 🎭 Análisis de Sentimientos
+### 🔍 Endpoints de Salud
 
-| Método | Endpoint | Descripción | Autenticación |
-|--------|----------|-------------|---------------|
-| `POST` | `/sentiment` | Analizar sentimiento de texto | ✅ Requerida |
-| `GET` | `/sentiment/stats` | Estadísticas globales | ✅ Requerida |
-| `GET` | `/sentiment/my-analyses` | Mis análisis | ✅ Requerida |
+| Endpoint | Descripción |
+|----------|-------------|
+| `/health` | Estado general de la aplicación |
+| `/health/diskSpace` | Espacio en disco disponible |
+| `/health/db` | Conexión con base de datos |
+| `/health/redis` | Conexión con Redis |
 
-### 👤 Gestión de Usuarios
+### 📊 Métricas Disponibles
 
-| Método | Endpoint | Descripción | Autenticación |
-|--------|----------|-------------|---------------|
-| `POST` | `/auth/register` | Registro de usuario | ❌ No requerida |
-| `POST` | `/auth/login` | Inicio de sesión | ❌ No requerida |
-| `GET` | `/users/profile` | Perfil de usuario | ✅ Requerida |
+- **Spring Boot Actuator**: Métricas integradas
+- **Custom Health Checks**: Verificación de servicios externos
+- **Performance Monitoring**: Tiempos de respuesta de API
+- **Cache Statistics**: Hit ratio de Redis
 
-### 🌐 Internacionalización
+### 📋 Logging Configurado
 
-| Método | Endpoint | Descripción | Autenticación |
-|--------|----------|-------------|---------------|
-| `GET` | `/i18n/messages/{lang}` | Mensajes por idioma | ❌ No requerida |
-| `GET` | `/i18n/translate` | Traducir texto | ❌ No requerida |
-
-### 💊 Health Check
-
-| Método | Endpoint | Descripción | Autenticación |
-|--------|----------|-------------|---------------|
-| `GET` | `/actuator/health` | Estado del sistema | ❌ No requerida |
-
----
-
-## 🔐 Seguridad
-
-### 🛡️ JWT Authentication
-
-El sistema usa JSON Web Tokens para autenticación:
-
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiJ9...",
-  "type": "Bearer",
-  "expiresIn": 86400000
-}
-```
-
-### 📋 Headers de Autenticación
-
-```http
-Authorization: Bearer <jwt_token>
-Content-Type: application/json
-```
-
-### 🎭 Roles de Usuario
-
-| Rol | Permisos | Descripción |
-|-----|----------|-------------|
-| `USER` | Análisis propios, perfil básico | Usuario estándar |
-| `ADMIN` | Todos los endpoints, estadísticas globales | Administrador |
-
----
-
-## 🌐 Internacionalización
-
-### 🗣️ Idiomas Soportados
-
-| Idioma | Código | Estado |
-|--------|--------|--------|
-| Español | `es` | ✅ Completo |
-| Inglés | `en` | ✅ Completo |
-| Portugués | `pt` | ✅ Completo |
-
-### 📁 Archivos de Traducción
-
-```
-src/main/resources/i18n/
-├── 📄 messages_es.properties
-├── 📄 messages_en.properties
-└── 📄 messages_pt.properties
-```
-
-### 🔄 Traducción Automática
-
-La API integra LibreTranslate para traducción automática:
-
-```bash
-# Ejemplo de traducción
-curl -X POST "http://localhost:8080/i18n/translate" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "Hello world",
-    "from": "en",
-    "to": "es"
-  }'
+```yaml
+logging:
+  level:
+    com.hackaton.sentiment: INFO
+    org.springframework.cache: INFO
+  file:
+    name: logs/sentiment-app.log
 ```
 
 ---
 
-## 📈 Performance
+## 🤝 Contribución
 
-### ⚡ Optimizaciones
+### 🔄 Flujo de Trabajo
 
-- **Redis Cache**: Cache de traducciones con TTL de 1 hora
-- **Connection Pooling**: HikariCP con pool de 10 conexiones
-- **Concurrent Processing**: WebFlux para operaciones I/O
-- **JPA Optimizations**: Queries optimizadas y fetch strategies
+1. **Fork** del repositorio
+2. **Branch** feature/nueva-funcionalidad
+3. **Commit** con mensajes convencionales
+4. **Push** al branch
+5. **Pull Request** con descripción detallada
 
-### 📊 Métricas
+### 📝 Estándares de Código
 
-| Métrica | Valor | Descripción |
-|---------|-------|-------------|
-| **Response Time** | <200ms | Análisis de sentimiento |
-| **Cache Hit Rate** | >85% | Traducciones cacheadas |
-| **Uptime** | 99.9% | Disponibilidad del servicio |
-| **Throughput** | 1000 req/s | Máximo rendimiento |
+- **Java 21**: Usar features modernas (records, pattern matching)
+- **Lombok**: Reducir código repetitivo
+- **Swagger**: Documentación de API actualizada
+- **Tests**: Mínimo 80% cobertura
 
----
+### 🧪 PR Requirements
 
-## 🤝 Contribuir
-
-### 📋 Guía de Contribución
-
-1. **Fork** el repositorio
-2. **Crear** rama feature (`git checkout -b feature/amazing-feature`)
-3. **Commit** cambios (`git commit -m 'Add amazing feature'`)
-4. **Push** a la rama (`git push origin feature/amazing-feature`)
-5. **Abrir** Pull Request
-
-### 🎯 Convenciones de Código
-
-- **Java**: Seguir Google Java Style Guide
-- **Commits**: Usar [Conventional Commits](https://conventionalcommits.org/)
-- **Tests**: Mantener >80% de cobertura
-- **Docs**: Actualizar Swagger para nuevos endpoints
-
-### 🐛 Reportar Issues
-
-Usar las plantillas de GitHub Issues:
-- 🐛 **Bug Report**: Para errores
-- ✨ **Feature Request**: Para nuevas funcionalidades
-- 📚 **Documentation**: Para mejoras en docs
+- [ ] Tests funcionando
+- [ ] Código formateado
+- [ ] Documentación actualizada
+- [ ] SonarQube sin issues críticos
 
 ---
 
-## 📄 Licencia
+## 📚 Documentación Adicional
 
-Este proyecto está licenciado bajo la **MIT License** - ver el archivo [LICENSE](LICENSE) para detalles.
-
----
-
-## 🙏 Agradecimientos
-
-<div align="center">
-
-**Gracias a todos los contribuidores y a la comunidad Oracle ONE**
-
-[![Made with ❤️](https://img.shields.io/badge/Made%20with%20❤️-red.svg)]()
-
-**Desarrollado con ☕ y 🎵 durante el Hackathon Oracle ONE 2024**
-
-</div>
+- **[API Documentation](http://localhost:8080/swagger-ui.html)**: Swagger UI interactiva
+- **[Javadoc](target/site/apidocs/index.html)**: Documentación de código
+- **[JaCoCo Report](target/site/jacoco/index.html)**: Cobertura de tests
+- **[JWT Setup](JWT_SETUP.md)**: Configuración detallada de JWT
 
 ---
 
-## 📞 Contacto
 
-- **Maintainer**: Equipo 39 - Hackathon Oracle ONE
-- **Email**: [contact@sentiment-api.com](mailto:contact@sentiment-api.com)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
 
----
-
-<div align="center">
-
-**⭐ Si te gusta el proyecto, no olvides darle una estrella!**
-
-[![Star History Chart](https://api.star-history.dev/svg?repos=your-repo/sentiment-backend&type=Date)](https://star-history.dev/#your-repo/sentiment-backend&Date)
+*© 2026 Hackathon Oracle ONE - Backend Team. Todos los derechos reservados.*
 
 </div>
